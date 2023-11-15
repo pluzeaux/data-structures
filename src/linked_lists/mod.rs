@@ -1,3 +1,4 @@
+mod tests;
 use std::{cell::RefCell, rc::Rc};
 
 #[derive(Clone)]
@@ -10,31 +11,38 @@ type Link = Option<Rc<RefCell<Node>>>;
 
 impl Node {
     fn new(value: String) -> Rc<RefCell<Node>> {
-        Rc::new(RefCell::new(Node {
-            value,
-            next: None,
-        }))
+        Rc::new(RefCell::new(Node { value, next: None }))
     }
 }
 
 #[derive(Clone)]
-pub struct  TransactionLog {
+pub struct TransactionLog {
     head: Link,
     tail: Link,
     pub length: u64,
 }
 
+impl Default for TransactionLog {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl TransactionLog {
     pub fn new() -> TransactionLog {
-        TransactionLog { head: None, tail: None, length: 0 }          
+        TransactionLog {
+            head: None,
+            tail: None,
+            length: 0,
+        }
     }
 
-    pub fn append(&mut self, value: String)  {
+    pub fn append(&mut self, value: String) {
         let new = Node::new(value);
-        
+
         match self.tail.take() {
             Some(old) => old.borrow_mut().next = Some(new.clone()),
-            None => self.head = Some(new.clone())
+            None => self.head = Some(new.clone()),
         };
         self.length += 1;
         self.tail = Some(new);
@@ -55,5 +63,4 @@ impl TransactionLog {
                 .value
         })
     }
-
 }

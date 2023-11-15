@@ -13,6 +13,6 @@ fn main() {
     tl.append(String::from("9"));
     tl.append(String::from("10"));
     tl.append(String::from("11"));
-    let s1 = tl.pop();
-    let s2 = tl.pop();
-}   
+    let _s1 = tl.pop();
+    let _s2 = tl.pop();
+}
